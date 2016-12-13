@@ -1,5 +1,29 @@
 package org.activehome.context.live;
 
+/*
+ * #%L
+ * Active Home :: Context :: Live
+ * $Id:$
+ * $HeadURL:$
+ * %%
+ * Copyright (C) 2016 Active Home Project
+ * %%
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation, either version 3 of the 
+ * License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public 
+ * License along with this program.  If not, see
+ * <http://www.gnu.org/licenses/gpl-3.0.html>.
+ * #L%
+ */
+
 import com.eclipsesource.json.JsonObject;
 import org.activehome.com.Notif;
 import org.activehome.com.RequestCallback;
@@ -14,19 +38,24 @@ import org.kevoree.annotation.Param;
 import java.util.List;
 
 /**
+ * An Active Home context managing only live data (no data store).
+ *
  * @author Jacky Bourgeois
- * @version %I%, %G%
  */
-@ComponentType(description = "An Active Home context managing only live data (no data storage).")
+@ComponentType(version = 1, description = "An Active Home context "
+        + "managing only live data (no data storage).")
 public class LiveContext extends Context {
 
+    /**
+     * Where to find the sources (for the Active Home store).
+     */
     @Param(defaultValue = "/active-home-context-live")
     private String src;
 
     @Override
-    public void onInit() {
+    public final void onInit() {
         super.onInit();
-        sendNotif(new Notif(getFullId(),"*",
+        sendNotif(new Notif(getFullId(), "*",
                 getCurrentTime(), Status.READY.name()));
     }
 
@@ -36,7 +65,7 @@ public class LiveContext extends Context {
      * @param dp the new data point
      */
     @Override
-    protected void save(DataPoint dp) {
+    protected void save(final DataPoint dp) {
 
     }
 
@@ -46,7 +75,7 @@ public class LiveContext extends Context {
      * @param dpArray the array of new data points
      */
     @Override
-    protected void save(List<DataPoint> dpArray) {
+    protected void save(final List<DataPoint> dpArray) {
 
     }
 
@@ -57,8 +86,8 @@ public class LiveContext extends Context {
      * @param callback    The callback to reply
      */
     @Override
-    public void getLastData(String[] metricArray,
-                            RequestCallback callback) {
+    public void getLastData(final String[] metricArray,
+                            final RequestCallback callback) {
         JsonObject requestedData = new JsonObject();
         for (String metric : metricArray) {
             DataPoint dp = getCurrentDP(metric, "0", 0);
@@ -78,10 +107,10 @@ public class LiveContext extends Context {
      * @param callback The callback to reply
      */
     @Override
-    public void getData(String metric,
-                        long start,
-                        long end,
-                        RequestCallback callback) {
+    public void getData(final String metric,
+                        final long start,
+                        final long end,
+                        final RequestCallback callback) {
 
     }
 
